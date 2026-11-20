@@ -36,6 +36,7 @@ flowchart LR
 - [المان‌ها و تگ‌های تعاملی سوالات (چندگزینه‌ای، عددی، ماتریسی، چک‌باکس و فرمول)](02-instructor-guide/question-elements.md)
 - [تعریف آزمون‌ها، تکالیف و کوییزها (`infoAssessment.json`)](02-instructor-guide/assessment-setup.md)
 - [اصول یادگیری تسلط‌محور (Mastery Learning)، نمره‌دهی تصادفی و تلاش‌های مجدد](02-instructor-guide/mastery-learning.md)
+- [همگام‌سازی، چرخه گیت و اصلاح نمرات در آزمون فعال](02-instructor-guide/git-and-sync.md)
 - [مدیریت دانشجویان، کدهای ثبت‌نام و سطوح دسترسی](02-instructor-guide/student-management.md)
 - [دفترچه نمرات، تحلیل عملکرد کلاسی و خروجی اکسل/CSV](02-instructor-guide/gradebook-and-analytics.md)
 
@@ -44,6 +45,7 @@ flowchart LR
 - [داوری خودکار سوالات زبان‌های C و ++C](03-autograding-and-code/c-cpp-autograder.md)
 - [داوری خودکار سوالات جاوا با JUnit](03-autograding-and-code/java-autograder.md)
 - [میز کارهای ابری تعاملی (Workspaces: VS Code و Jupyter Notebook)](03-autograding-and-code/workspaces.md)
+- [مرجع مشخصات فنی و استاندارد results.json](03-autograding-and-code/results-json-reference.md)
 
 ### ۴. راهنمای دستیاران آموزشی (TA) و تصحیح
 - [نحوه تصحیح دستی سوالات تشریحی و پروژه‌ها](04-ta-and-grading/manual-grading.md)

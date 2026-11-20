@@ -1,63 +1,119 @@
 # داوری خودکار سوالات پایتون (Python Autograder)
 
-سامانه قابلیت ارزیابی امن و هوشمند کدهای پایتون را با فریم‌ورک استاندارد `unittest` یا تست‌های تابعی فراهم کرده است.
+داوری خودکار پایتون با کانتینر ایزوله `prairielearn/grader-python` اجرا می‌شود. کدهای ارسالی دانشجو درون یک محیط لینوکسی بدون دسترسی به شبکه و با محدودیت‌های شدید حافظه و زمان پردازش، ارزیابی می‌گردند.
 
 ---
 
-## ۱. ساختار یک سوال کدنویسی پایتون
-
-یک سوال داوری خودکار پایتون معمولاً شامل فایل‌های زیر است:
+## ۱. ساختار پوشه سوالات برنامه‌نویسی پایتون
 
 ```text
-questions/pythonFibonacci/
+questions/python_matrix_transpose/
 ├── info.json
 ├── question.html
 └── tests/
-    ├── test.py             # تست‌کیس‌های ارزیابی کد دانشجو
-    └── ans.py              # راه‌حل مرجع استاد (اختیاری)
+    └── test.py
 ```
 
 ---
 
-## ۲. صورت سوال در `question.html`
+## ۲. پیکربندی `info.json` برای ارزیابی خارجی
+
+```json
+{
+  "uuid": "7a82b3d1-923f-42da-9f12-0f9c2a823e51",
+  "title": "پیاده‌سازی ترانهاده ماتریس در پایتون",
+  "type": "v3",
+  "singleVariant": true,
+  "gradingMethod": "External",
+  "externalGradingOptions": {
+    "image": "prairielearn/grader-python",
+    "entrypoint": "/grader/run.sh",
+    "timeout": 10,
+    "enableNetworking": false
+  }
+}
+```
+- `enableNetworking: false`: مسدودسازی کامل اتصال به اینترنت برای جلوگیری از نشت اطلاعات یا ارسال درخواست به سرورهای خارجی.
+- `timeout: 10`: قطع خودکار پروسه در صورت اجرای بیش از ۱۰ ثانیه (مهار حلقه‌های بی‌نهایت).
+
+---
+
+## ۳. طراحی رابط کاربری در `question.html`
 
 ```html
 <pl-question-panel>
-  <p>تابعی به نام <code>fibonacci(n)</code> بنویسید که عدد $n$-ام دنباله فیبوناچی را محاسبه و بازگرداند.</p>
-  <p>مثال: <code>fibonacci(5)</code> باید عدد <code>5</code> را برگرداند.</p>
+  <p>تابعی به نام <code>transpose(matrix)</code> بنویسید که یک ماتریس دوبعدی را دریافت کرده و ترانهاده آن را بازگرداند.</p>
 </pl-question-panel>
 
-<pl-file-editor file-name="solution.py" ace-mode="ace/mode/python"></pl-file-editor>
-<pl-submission-panel></pl-submission-panel>
+<pl-file-editor 
+    file-name="solution.py" 
+    ace-mode="ace/mode/python" 
+    source-file-name="starter_code.py">
+</pl-file-editor>
+
+<pl-submission-panel>
+  <!-- نمایش جدول نتایج تست‌کیس‌ها و نمرات تفکیکی -->
+  <pl-external-grader-results></pl-external-grader-results>
+  
+  <!-- نمایش پیش‌نمایش کد ارسال‌شده -->
+  <pl-file-preview></pl-file-preview>
+</pl-submission-panel>
 ```
 
 ---
 
-## ۳. نگارش تست‌کیس‌ها در `tests/test.py`
+## ۴. نوشتن آزمون‌ها با `PLTestCase` و ماژول `Feedback` (`tests/test.py`)
+
+فریم‌ورک استاندارد ارزیابی پایتون از کلاس `PLTestCase` و دکوراتورهای `@points` و `@name` استفاده می‌کند:
 
 ```python
-import unittest
-from solution import fibonacci
+from pl_unit_test import PLTestCase
+from pl_helpers import points, name
+import numpy as np
+from code_feedback import Feedback
 
-class TestFibonacci(unittest.TestCase):
-    def test_base_cases(self):
-        """بررسی مقادیر اولیه فیبوناچی"""
-        self.assertEqual(fibonacci(0), 0)
-        self.assertEqual(fibonacci(1), 1)
+class TestMatrix(PLTestCase):
+    
+    @points(3)
+    @name("تست عمومی ۱: ماتریس متقارن و ساده")
+    def test_0(self):
+        # بررسی وجود تابع در کد ارسالی دانشجو
+        if not hasattr(self.st, "transpose"):
+            Feedback.set_score(0)
+            Feedback.add_feedback("تابع transpose در فایل ارسالی یافت نشد.")
+            return
+            
+        mat = [[1, 2], [3, 4]]
+        expected = [[1, 3], [2, 4]]
+        student_res = self.st.transpose(mat)
+        
+        # مقایسه خروجی با پیام راهنما
+        if student_res == expected:
+            Feedback.set_score(1.0)
+            Feedback.add_feedback("پاسخ شما برای ماتریس‌های ۲×۲ کاملاً صحیح است.")
+        else:
+            Feedback.set_score(0)
+            Feedback.add_feedback(f"ورودی {mat}؛ خروجی مورد انتظار {expected} بود اما خروجی شما {student_res} شد.")
 
-    def test_larger_values(self):
-        """بررسی مقادیر بزرگ‌تر"""
-        self.assertEqual(fibonacci(7), 13)
-        self.assertEqual(fibonacci(10), 55)
+    @points(4)
+    @name("تست عمومی ۲: ابعاد غیرمربعی و تک‌سطری")
+    def test_1(self):
+        mat = [[1, 2, 3]]
+        expected = [[1], [2], [3]]
+        student_res = self.st.transpose(mat)
+        self.assertEqual(student_res, expected, "خطا در مدیریت ماتریس‌های سطری.")
 
-    def test_performance(self):
-        """بررسی کارایی و پیچیدگی زمانی"""
-        self.assertEqual(fibonacci(30), 832040)
+    @points(3)
+    @name("تست مخفی: ماتریس‌های بزرگ و داده‌های تصادفی")
+    def test_hidden(self):
+        # ورودی در بازخورد چاپ نمی‌شود تا از هاردکد جلوگیری گردد
+        mat = np.random.randint(1, 100, size=(50, 20)).tolist()
+        expected = np.array(mat).T.tolist()
+        student_res = self.st.transpose(mat)
+        self.assertEqual(student_res, expected, "الگوریتم شما در ابعاد بزرگ با شکست مواجه شد.")
 ```
 
----
-
-## ۴. ویژگی‌های کلیدی داوری پایتون
-1. **اجرا در کانتینر ایزوله**: دانشجو دسترسی به شبکه، فایل‌های سیستم یا کدهای سایر دانشجویان ندارد.
-2. **سقف زمان و حافظه (Timeout & Memory Limit)**: اگر کد دانشجو وارد حلقه بی‌نهایت شود، پس از چند ثانیه متوقف شده و خطای Timeout گزارش می‌شود.
-3. **تست‌های مخفی (Hidden Tests)**: استاد می‌تواند مشخص کند که نتیجه برخی تست‌ها تا پایان مهلت آزمون از دید دانشجو پنهان بماند تا از Hardcode کردن پاسخ‌ها جلوگیری شود.
+### متدهای کاربردی کلاس `Feedback`:
+- `Feedback.check_scalar(name, student_val, true_val, rtol=1e-3)`: بررسی متغیرهای عددی اسکالر.
+- `Feedback.check_numpy_array_allclose(name, student_arr, true_arr)`: مقایسه دقیق آرایه‌های چندبعدی NumPy.
+- `Feedback.check_dataframe(name, student_df, true_df)`: بررسی جداول کتابخانه Pandas.

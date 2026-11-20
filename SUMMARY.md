@@ -10,10 +10,11 @@
 ## ۲. راهنمای اساتید و طراحان
 * [ساختار دوره و فایل‌ها](02-instructor-guide/course-structure.md)
 * [پیکربندی درس و ترم](02-instructor-guide/course-configuration.md)
-* [اصول طراحی سوال](02-instructor-guide/question-authoring.md)
+* [اصول طراحی سوال و توابع سرور](02-instructor-guide/question-authoring.md)
 * [المان‌های تعاملی سوالات](02-instructor-guide/question-elements.md)
-* [تعریف انواع آزمون و تکلیف](02-instructor-guide/assessment-setup.md)
+* [تعریف انواع آزمون و استخرهای سوال](02-instructor-guide/assessment-setup.md)
 * [مکانیزم یادگیری تسلط‌محور](02-instructor-guide/mastery-learning.md)
+* [همگام‌سازی، چرخه گیت و اصلاح نمرات](02-instructor-guide/git-and-sync.md)
 * [مدیریت اعضای دوره و دسترسی‌ها](02-instructor-guide/student-management.md)
 * [دفترچه نمرات و آمار کلاسی](02-instructor-guide/gradebook-and-analytics.md)
 
@@ -21,15 +22,16 @@
 * [داوری خودکار پایتون](03-autograding-and-code/python-autograder.md)
 * [داوری خودکار C و ++C](03-autograding-and-code/c-cpp-autograder.md)
 * [داوری خودکار جاوا](03-autograding-and-code/java-autograder.md)
-* [میزکارهای ابری (Workspaces)](03-autograding-and-code/workspaces.md)
+* [میزکارهای ابری تعاملی (Workspaces)](03-autograding-and-code/workspaces.md)
+* [مرجع مشخصات فنی results.json](03-autograding-and-code/results-json-reference.md)
 
 ## ۴. راهنمای دستیاران آموزشی (TA)
-* [فرایند تصحیح دستی](04-ta-and-grading/manual-grading.md)
+* [فرایند تصحیح دستی و میانبرها](04-ta-and-grading/manual-grading.md)
 * [بارم‌بندی با روبریم (Rubrics)](04-ta-and-grading/rubrics.md)
-* [دستیار هوش مصنوعی در تصحیح](04-ta-and-grading/ai-grading.md)
+* [دستیار هوش مصنوعی در تصحیح خوشه‌ای](04-ta-and-grading/ai-grading.md)
 * [بررسی اعتراضات و بازبینی نمرات](04-ta-and-grading/regrading-and-appeals.md)
 
 ## ۵. راهنمای دانشجویان و فراگیران
 * [ثبت‌نام و عضویت در درس](05-student-guide/student-start.md)
-* [شرکت در آزمون و تکالیف](05-student-guide/taking-assessments.md)
-* [حل سوالات کدنویسی و تست‌کیس‌ها](05-student-guide/solving-coding-problems.md)
+* [شرکت در آزمون، ورود فرمول و ددلاین‌ها](05-student-guide/taking-assessments.md)
+* [حل سوالات کدنویسی و کاتالوگ خطاهای داور](05-student-guide/solving-coding-problems.md)
