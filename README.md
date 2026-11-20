@@ -73,6 +73,6 @@ flowchart LR
 - **وابستگی سازمانی:** دانشکده ریاضی، دانشگاه علم و صنعت ایران (IUST)
 - **پست الکترونیکی سازمانی:** [arsalan_dalvand@mathdep.iust.ac.ir](mailto:arsalan_dalvand@mathdep.iust.ac.ir)
 - **تلگرام جهت پشتیبانی و ارتباط مستقیم:** [@b_7vat4r](https://t.me/b_7vat4r)
-- **مخزن سورس پلتفرم در گیت‌هاب:** [https://github.com/ArsalanDalvand/smart-learning](https://github.com/ArsalanDalvand/smart-learning)
+- **مخزن سورس پلتفرم در گیت‌هاب:** [https://github.com/ArsalanDalvand/smart-homework](https://github.com/ArsalanDalvand/smart-homework)
 - **مخزن مستندات:** [https://github.com/ArsalanDalvand/docs](https://github.com/ArsalanDalvand/docs)
 

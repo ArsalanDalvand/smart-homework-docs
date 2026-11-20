@@ -21,7 +21,85 @@ flowchart TD
 
 ---
 
-## ۲. کالبدشکافی آبجکت داده‌ها (`data`) در پایتون
+## ۲. ساختار سه‌پنلی استاندارد سوال در `question.html`
+
+طراحی مدرن سوالات بر پایه معماری ۳ پنلی (Three-Panel Layout) استوار است که جداسازی منطقی صورت سوال، بازخورد ارسال، و کلید پاسخ تشریحی را فراهم می‌کند:
+
+```html
+<!-- ۱. پنل صورت سوال و المان‌های ورودی -->
+<pl-question-panel>
+  <p>تابع <code>solve(x)</code> را به گونه‌ای پیاده‌سازی کنید که ریشه معادله زیر را بیابد:</p>
+  <pl-code language="python">f(x) = x**3 - {{params.c}}</pl-code>
+  
+  <p>کد پاسخ خود را در کادر زیر وارد نمایید:</p>
+  <pl-file-editor file-name="solution.py" ace-mode="ace/mode/python"></pl-file-editor>
+</pl-question-panel>
+
+<!-- ۲. پنل نحوه نمایش ارسال‌های دانشجو در تاریخچه تلاش‌ها -->
+<pl-submission-panel>
+  <pl-file-preview></pl-file-preview>
+  <pl-external-grader-results></pl-external-grader-results>
+</pl-submission-panel>
+
+<!-- ۳. پنل پاسخ تشریحی و راهنمای حل مرجع (نمایش پس از موعد مقرر یا آزمون) -->
+<pl-answer-panel>
+  <div class="card border-info">
+    <div class="card-header bg-info-subtle fw-bold">روش حل گام‌به‌گام و کد مرجع:</div>
+    <div class="card-body">
+      <p>با استفاده از روش نیوتن-رافسون با گام تکرار:</p>
+      <pl-code language="python">
+def solve(x_init):
+    # کد مرجع استاد
+    return {{correct_answers.root}}
+      </pl-code>
+    </div>
+  </div>
+</pl-answer-panel>
+```
+
+---
+
+## ۳. کالبدشکافی فایل پیکربندی سوال (`info.json`)
+
+هر سوال دارای یک فایل `info.json` در پوشه اختصاصی خود است که ویژگی‌های پایه‌ای، متاداده‌ها و نحوه تصحیح را برای سیستم مشخص می‌سازد:
+
+```json
+{
+  "uuid": "8b52e391-7f9a-4c22-b5e1-80a1c6e12903",
+  "title": "محاسبه ریشه به روش نیوتن-رافسون",
+  "topic": "NumericalMethods",
+  "tags": ["python", "algorithms", "autograded"],
+  "type": "v3",
+  "singleVariant": false,
+  "gradingMethod": "External",
+  "partialCredit": true,
+  "externalGradingOptions": {
+    "image": "prairielearn/grader-python-pytest:lite",
+    "entrypoint": "/grader/run.sh",
+    "timeout": 30
+  },
+  "options": {
+    "showCorrectAnswer": true
+  }
+}
+```
+
+### فیلدهای کلیدی `info.json`:
+- **`uuid`**: شناسه یکتای جهانی (v4 UUID) جهت ردیابی و همگام‌سازی سوال در پایگاه‌داده.
+- **`title`**: عنوان کامل و فارسی سوال که در داشبورد و آزمون نمایش داده می‌شود.
+- **`topic`**: مبحث سوال (باید در `infoCourse.json` زیرمجموعه `topics` تعریف شده باشد).
+- **`tags`**: برچسب‌های طبقه‌بندی (مانند زبان برنامه‌نویسی، درجه سختی و نوع سوال).
+- **`type`**: ساختار نسل سوم پلتفرم که همواره مقدار `"v3"` است (پشتیبانی کامل از المان‌های `pl-*`).
+- **`singleVariant`**: در صورتی که `true` باشد، برای تمام دانشجویان یک نمونه یکسان تولید می‌شود. مقدار `false` به معنای اجرای `server.py` و تولید نمونه تصادفی به ازای هر دانشجو است.
+- **`gradingMethod`**: نحوه نمره‌دهی:
+  - `"Internal"`: تصحیح درون سرور اصلی با توابع پایتونی `server.py` یا المان‌های داخلی.
+  - `"External"`: ارسال کد به کانتینر ایزوله Docker جهت اجرای تست‌ها، کامپایل و داوری امن.
+  - `"Manual"`: تصحیح دستی توسط استاد یا دستیاران آموزشی با بارم‌بندی (Rubric).
+- **`partialCredit`**: فعال بودن نمره‌دهی جزئی برای تست‌ها و بخش‌های مختلف سوال.
+
+---
+
+## ۴. کالبدشکافی آبجکت داده‌ها (`data`) در پایتون
 
 آبجکت `data` یک دیکشنری پایتون استاندارد است که میان تمام توابع چرخه حیات به اشتراک گذاشته می‌شود:
 

@@ -117,3 +117,54 @@ class TestMatrix(PLTestCase):
 - `Feedback.check_scalar(name, student_val, true_val, rtol=1e-3)`: بررسی متغیرهای عددی اسکالر.
 - `Feedback.check_numpy_array_allclose(name, student_arr, true_arr)`: مقایسه دقیق آرایه‌های چندبعدی NumPy.
 - `Feedback.check_dataframe(name, student_df, true_df)`: بررسی جداول کتابخانه Pandas.
+
+---
+
+## ۵. داوری با فریم‌ورک مدرن `pytest` (`grader-python-pytest:lite`)
+
+در نسخه جدید پلتفرم، علاوه بر `unittest` سنتی، پشتیبانی کامل از `pytest` با کانتینر فوق‌سبک `prairielearn/grader-python-pytest:lite` فراهم شده است (این رویکرد در دوره نمونه دانشگاه علم و صنعت نیز پیاده‌سازی شده است).
+
+### ۵.۱. پیکربندی در `info.json`:
+```json
+"externalGradingOptions": {
+  "image": "prairielearn/grader-python-pytest:lite",
+  "entrypoint": "/grader/run.sh",
+  "timeout": 15
+}
+```
+
+### ۵.۲. نگارش آزمون با سینتکس تمیز `pytest`:
+در فایل `tests/test_solution.py`:
+```python
+import pytest
+import solution  # کدی که توسط دانشجو ارسال شده است
+
+def test_circle_area_basic():
+    """تست شماره ۱: شعاع یک"""
+    assert pytest.approx(solution.circle_area(1), 1e-4) == 3.14159
+
+@pytest.mark.parametrize("r, expected", [
+    (0, 0.0),
+    (2.5, 19.63495),
+    (10, 314.15926)
+])
+def test_circle_area_values(r, expected):
+    """تست شماره ۲: مقادیر مختلف اعشاری و صفر"""
+    assert pytest.approx(solution.circle_area(r), 1e-4) == expected
+
+def test_negative_radius_handling():
+    """تست شماره ۳: رفتار با شعاع منفی طبق قرارداد تابع"""
+    assert solution.circle_area(-5) == 0
+```
+
+---
+
+## ۶. هشدارهای حیاتی برای دانشجویان و مدرسان
+
+> [!CAUTION]
+> **اشتباه رایج دانشجویان: استفاده از `print()` به جای `return`:**
+> بزرگ‌ترین خطایی که دانشجویان تازه‌کار مرتکب می‌شوند، چاپ خروجی با دستور `print(...)` است. تست‌کیس‌های داور خودکار مقدار بازگشتی تابع (`return`) را بررسی می‌کنند؛ در صورت استفاده از `print`، تابع مقدار `None` بازمی‌گرداند و تمام تست‌ها ناموفق ثبت خواهند شد! در صورت سوال حتماً این موضوع را به دانشجویان گوشزد نمایید.
+
+> [!WARNING]
+> **حلقه‌های بی‌نهایت و زمان اجرا (Timeout):**
+> اگر کد دانشجو وارد حلقه بی‌نهایت (`while True`) شود، کانتینر داوری پس از سپری شدن زمان `timeout` (پیش‌فرض ۱۰ تا ۱۵ ثانیه) متوقف شده و خطای `TimeoutError` صادر می‌کند. تست‌های اعتبارسنجی را به نحوی بنویسید که ورودی‌های با ابعاد نامتعارف سیستم را مسدود نکنند.
