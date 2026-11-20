@@ -42,3 +42,14 @@ graph TD
     E --> F["۶. داوری خودکار و تصحیح دستی TA"]
     F --> G["۷. ثبت نمرات نهایی و تحلیل آماری"]
 ```
+
+---
+
+## ۴. توسعه‌دهنده و ماهیت متن‌باز پروژه
+
+این پلتفرم به صورت کاملاً متن‌باز و تحت مجوز عمومی **AGPLv3** منتشر گردیده است:
+- **طراح و توسعه‌دهنده:** ارسلان دالوند (دانشکده ریاضی، دانشگاه علم و صنعت ایران)
+- **پست الکترونیکی سازمانی:** [arsalan_dalvand@mathdep.iust.ac.ir](mailto:arsalan_dalvand@mathdep.iust.ac.ir)
+- **تلگرام جهت ارتباط و بازخورد:** [@b_7vat4r](https://t.me/b_7vat4r)
+- **مخزن کد پروژه:** [https://github.com/ArsalanDalvand/smart-learning](https://github.com/ArsalanDalvand/smart-learning)
+
