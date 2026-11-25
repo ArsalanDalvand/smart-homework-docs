@@ -26,6 +26,7 @@
 * [مرجع مشخصات فنی results.json](03-autograding-and-code/results-json-reference.md)
 
 ## ۴. راهنمای دستیاران آموزشی (TA)
+* [راهنمای جامع اساتید و TAها (طراحی سوال، داوری و مدیریت درس)](04-ta-and-grading/ta-question-authoring-and-workflow.md)
 * [فرایند تصحیح دستی و میانبرها](04-ta-and-grading/manual-grading.md)
 * [بارم‌بندی با روبریم (Rubrics)](04-ta-and-grading/rubrics.md)
 * [دستیار هوش مصنوعی در تصحیح خوشه‌ای](04-ta-and-grading/ai-grading.md)
